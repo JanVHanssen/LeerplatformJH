@@ -1,0 +1,89 @@
+﻿@model IEnumerable<LeerplatformJH.Models.Les>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table id="custtable" class="display">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Titel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Omschrijving)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TijdstipStart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TijdstipEinde)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lokaal)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Titel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Omschrijving)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TijdstipStart)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TijdstipEinde)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lokaal.Omschrijving)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.LesId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.LesId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.LesId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<link rel="stylesheet" type="text/css"
+      href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+@section Scripts
+    {
+    <script type="text/javascript"
+            src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+    <script>
+        $(function () {
+            $('#custtable').DataTable({
+                "ajax": {
+                    "url": "/Les/LoadAllLessen",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "lesId" },
+                    { "data": "titel" },
+                    { "data": "omschrijving" },
+                    { "data": "tijdstipstart" },
+                    { "data": "tijdstipeinde" },
+                    { "data": "lokaalId"},
+                    { "data": "lokaal" },
+                    { "data": "vakinschrijvingen" },
+                    { "data": "studenten" }
+                ]
+
+            });
+        });
+    </script>
+    }

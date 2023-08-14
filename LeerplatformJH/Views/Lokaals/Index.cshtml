@@ -1,0 +1,80 @@
+﻿@model IEnumerable<LeerplatformJH.Models.Lokaal>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table id="custtable" class="display">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Titel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Omschrijving)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Capaciteit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Middelen)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Titel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Omschrijving)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Capaciteit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Middelen)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.LokaalId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.LokaalId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.LokaalId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<link rel="stylesheet" type="text/css"
+      href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+@section Scripts
+    {
+    <script type="text/javascript"
+            src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+    <script>
+        $(function () {
+            $('#custtable').DataTable({
+                "ajax": {
+                    "url": "/Lokaals/LoadAllLokalen",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "lokaalId" },
+                    { "data": "titel" },
+                    { "data": "omschrijving" },
+                    { "data": "capaciteit" },
+                    { "data": "middelen" },
+                    { "data": "lessen " },
+                ]
+
+            });
+        });
+    </script>
+}

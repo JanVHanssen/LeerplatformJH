@@ -1,0 +1,45 @@
+﻿@model LeerplatformJH.Models.VakInschrijving
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>VakInschrijving</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="VakInschrijvingId" class="control-label"></label>
+                <input asp-for="VakInschrijvingId" class="form-control" />
+                <span asp-validation-for="VakInschrijvingId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Titel" class="control-label"></label>
+                <input asp-for="Titel" class="form-control" />
+                <span asp-validation-for="Titel" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="StudentId" />
+            <input type="hidden" asp-for="VakId" />
+            <div class="form-group">
+                <label asp-for="Goedkeuring" class="control-label"></label>
+                <input asp-for="Goedkeuring" class="form-control" />
+                <span asp-validation-for="Goedkeuring" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
