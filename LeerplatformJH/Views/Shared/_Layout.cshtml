@@ -57,6 +57,9 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="StudentInschrijvingen" asp-action="Index">Mijn inschrijvingen</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="StudentNieuweInschrijving" asp-action="Create">Nieuwe inschrijving</a>
+                            </li>
                         }
                         @if (User.IsInRole("Docent"))
                         {

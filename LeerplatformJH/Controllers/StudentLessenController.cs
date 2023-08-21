@@ -14,6 +14,8 @@ using System.Drawing.Printing;
 using LeerplatformJH.Data;
 using System.Numerics;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
+using System.Runtime.Intrinsics.X86;
 
 namespace LeerplatformJH.Controllers
 {
@@ -25,29 +27,29 @@ namespace LeerplatformJH.Controllers
         {
             _context = context;
         }
-        public async Task<IActionResult> asyncIndex()
+        public async Task<IActionResult> Index()
         {
+            string loggedInUserEmail = User.Identity.Name;
 
-            var lesStudent = (from s in _context.Studenten
-                              join l in _context.Lessen
-                              on s.StudentId equals l.StudentId
-                              where s.Email == User.Identity.Name
-                              group l by s.StudentId into sByLid
-                              select new StudentLessen
-                              {
-                                  Id = sByLid.Key,
-                                  Lessen = sByLid.ToList()
-                              }).FirstOrDefault();
+            var student = await _context.Studenten.SingleOrDefaultAsync(s => s.Email == loggedInUserEmail);
 
-            IEnumerable<Les> lessen = lesStudent.Lessen;
-           
-            
-           
+            if (student == null)
+            {
+                return NotFound(); 
+            }
 
-            return View();
+            var studentLessen = await _context.Lessen
+                .Where(lessen => lessen.StudentId == student.StudentId)
+                .ToListAsync();
 
+            var studentLessenVM = new StudentLessen
+            {
+                Id = student.StudentId,
+                Student = student,
+                Lessen = studentLessen
+            };
 
-
+            return View(studentLessenVM);
         }
     }
 }

@@ -1,0 +1,22 @@
+﻿@model LeerplatformJH.Models.ViewModels.StudentNieuweInschrijving
+
+<h2>Maak een nieuwe inschrijving!</h2>
+<form asp-action="Create">
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="form-group">
+        <label for="SelectedVakId">Kies een vak</label>
+        <select class="form-control" id="SelectedVakId" name="SelectedVakId" asp-items="@(new SelectList(Model.Vakken, "VakId", "Titel"))">
+            <option value="">-- Kies een vak --</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="Titel">Title</label>
+        <input class="form-control" id="Titel" name="Titel" type="text">
+        <span asp-validation-for="Titel" class="text-danger"></span>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

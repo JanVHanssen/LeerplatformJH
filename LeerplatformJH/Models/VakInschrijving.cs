@@ -25,7 +25,6 @@ namespace LeerplatformJH.Models
 
         public virtual Vak? Vak { get; set; }
         public virtual Student? Student { get; set; }
-        public virtual Gebruiker Gebruiker { get; set; }
 
     }
 }

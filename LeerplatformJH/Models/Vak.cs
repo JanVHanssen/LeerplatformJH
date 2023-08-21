@@ -9,7 +9,7 @@ namespace LeerplatformJH.Models
 {
     public class Vak
     {
-        [Key]
+       
         public int VakId { get; set; }
         [Required(ErrorMessage = "Titel is verplicht")]
         [Display(Name = "Titel")]

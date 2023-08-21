@@ -31,10 +31,10 @@ namespace LeerplatformJH.Models
         public DateTime TijdstipEinde { get; set; }
         public int LokaalId { get; set; }
         public int StudentId { get; set; }
+        public int DocentId { get; set; }
         public virtual Lokaal? Lokaal { get; set; }
         public virtual Docent Docent { get; set; }
         public virtual Student Student { get; set; }
-
 
     }
 

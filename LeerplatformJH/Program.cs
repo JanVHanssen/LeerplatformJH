@@ -22,7 +22,7 @@ var builder = WebApplication.CreateBuilder(args);
         options.UseSqlServer(connectionString));
     builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-    builder.Services.AddIdentity<Gebruiker, IdentityRole>().AddRoles<IdentityRole>()
+    builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>()
         
    .AddEntityFrameworkStores<ApplicationDbContext>()
    .AddDefaultTokenProviders();
@@ -75,7 +75,7 @@ app.UseEndpoints(endpoints =>
 });
 
 app.Run();
-async Task CreateRolesAsync(IServiceProvider serviceProvider)
+ /* async Task CreateRolesAsync(IServiceProvider serviceProvider)
 {
     var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var UserManager = serviceProvider.GetRequiredService<UserManager<Gebruiker>>();
@@ -101,4 +101,4 @@ async Task CreateRolesAsync(IServiceProvider serviceProvider)
             await UserManager.AddToRoleAsync(gebruiker, role);
         }
     }
-}
+} */

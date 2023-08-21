@@ -4,6 +4,7 @@ using LeerplatformJH.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LeerplatformJH.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230820063019_testt1")]
+    partial class testt1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -735,7 +737,7 @@ namespace LeerplatformJH.Data.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("StudentInschrijvingen", (string)null);
+                    b.ToTable("StudentInschrijvingen");
                 });
 
             modelBuilder.Entity("LeerplatformJH.Models.ViewModels.StudentLessen", b =>
@@ -746,14 +748,14 @@ namespace LeerplatformJH.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("StudentId")
+                    b.Property<int>("LesStudentStudentId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StudentId");
+                    b.HasIndex("LesStudentStudentId");
 
-                    b.ToTable("StudentLessen", (string)null);
+                    b.ToTable("StudentLessen");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -1040,13 +1042,13 @@ namespace LeerplatformJH.Data.Migrations
 
             modelBuilder.Entity("LeerplatformJH.Models.ViewModels.StudentLessen", b =>
                 {
-                    b.HasOne("LeerplatformJH.Models.Student", "Student")
+                    b.HasOne("LeerplatformJH.Models.Student", "LesStudent")
                         .WithMany()
-                        .HasForeignKey("StudentId")
+                        .HasForeignKey("LesStudentStudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Student");
+                    b.Navigation("LesStudent");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

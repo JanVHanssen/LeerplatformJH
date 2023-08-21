@@ -15,13 +15,13 @@ namespace LeerplatformJH.Controllers
     public class VakInschrijvingsController : Controller
     {
         private IVakInschrijvingService _vakInschrijvingService;
-        private UserManager<Gebruiker> _userManager;
 
 
-        public VakInschrijvingsController(IVakInschrijvingService vakInschrijvingService, UserManager<Gebruiker> userManager)
+
+        public VakInschrijvingsController(IVakInschrijvingService vakInschrijvingService)
         {
             _vakInschrijvingService = vakInschrijvingService;
-            _userManager = userManager;
+
         }
 
         public IActionResult LoadAllVakInschrijvingen()

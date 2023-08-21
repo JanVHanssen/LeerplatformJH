@@ -9,7 +9,7 @@ namespace LeerplatformJH.Models
 {
     public class Docent
     {
-        [Key]
+        
         public int DocentId { get; set; }
         [Required(ErrorMessage = "Achternaam is verplicht")]
         [Display(Name = "Achternaam")]

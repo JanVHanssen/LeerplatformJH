@@ -1,0 +1,31 @@
+﻿@model LeerplatformJH.Models.ViewModels.StudentLessen
+
+<h2>Student Lessen</h2>
+
+<p>Welkom, @Model.Student.Voornaam @Model.Student.Achternaam!</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Titel</th>
+            <th>Tijdstip Start</th>
+            <th>Tijdstip Einde</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var lessen in Model.Lessen)
+        {
+            <tr>
+                <td>@lessen.Titel</td>
+                <td>@lessen.TijdstipStart.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>@lessen.TijdstipEinde.ToString("yyyy-MM-dd HH:mm")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+
+
+

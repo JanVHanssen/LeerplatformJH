@@ -4,6 +4,7 @@ using LeerplatformJH.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LeerplatformJH.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230821105211_2108")]
+    partial class _2108
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -735,7 +737,7 @@ namespace LeerplatformJH.Data.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("StudentInschrijvingen", (string)null);
+                    b.ToTable("StudentInschrijvingen");
                 });
 
             modelBuilder.Entity("LeerplatformJH.Models.ViewModels.StudentLessen", b =>
@@ -753,7 +755,7 @@ namespace LeerplatformJH.Data.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("StudentLessen", (string)null);
+                    b.ToTable("StudentLessen");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LeerplatformJH.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230813203612_test10")]
-    partial class test10
+    [Migration("20230821110227_21082")]
+    partial class _21082
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -163,7 +163,7 @@ namespace LeerplatformJH.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LesId"), 1L, 1);
 
-                    b.Property<int?>("DocentId")
+                    b.Property<int>("DocentId")
                         .HasColumnType("int");
 
                     b.Property<int>("LokaalId")
@@ -173,6 +173,12 @@ namespace LeerplatformJH.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("StudentLessenId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("TijdstipEinde")
                         .HasColumnType("datetime2");
@@ -194,6 +200,10 @@ namespace LeerplatformJH.Data.Migrations
 
                     b.HasIndex("LokaalId");
 
+                    b.HasIndex("StudentId");
+
+                    b.HasIndex("StudentLessenId");
+
                     b.HasIndex("VakId");
 
                     b.ToTable("Les", (string)null);
@@ -202,8 +212,10 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             LesId = 1,
+                            DocentId = 0,
                             LokaalId = 1,
                             Omschrijving = "Introductie tot de lineaire algebra",
+                            StudentId = 0,
                             TijdstipEinde = new DateTime(2023, 9, 23, 10, 30, 0, 0, DateTimeKind.Unspecified),
                             TijdstipStart = new DateTime(2023, 9, 23, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             Titel = "Wiskunde1A"
@@ -211,8 +223,10 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             LesId = 2,
+                            DocentId = 0,
                             LokaalId = 2,
                             Omschrijving = "Marxisme",
+                            StudentId = 0,
                             TijdstipEinde = new DateTime(2023, 9, 24, 10, 30, 0, 0, DateTimeKind.Unspecified),
                             TijdstipStart = new DateTime(2023, 9, 24, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             Titel = "Economie1B"
@@ -220,8 +234,10 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             LesId = 3,
+                            DocentId = 0,
                             LokaalId = 3,
                             Omschrijving = "Het lijdend voorwerp",
+                            StudentId = 0,
                             TijdstipEinde = new DateTime(2023, 9, 25, 10, 30, 0, 0, DateTimeKind.Unspecified),
                             TijdstipStart = new DateTime(2023, 9, 25, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             Titel = "Nederlands1A"
@@ -229,8 +245,10 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             LesId = 4,
+                            DocentId = 0,
                             LokaalId = 5,
                             Omschrijving = "Het meewerkend voorwerp",
+                            StudentId = 0,
                             TijdstipEinde = new DateTime(2023, 9, 26, 10, 30, 0, 0, DateTimeKind.Unspecified),
                             TijdstipStart = new DateTime(2023, 9, 26, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             Titel = "Nederlands1B"
@@ -238,8 +256,10 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             LesId = 5,
+                            DocentId = 0,
                             LokaalId = 4,
                             Omschrijving = "Inleiding",
+                            StudentId = 0,
                             TijdstipEinde = new DateTime(2023, 9, 27, 10, 30, 0, 0, DateTimeKind.Unspecified),
                             TijdstipStart = new DateTime(2023, 9, 27, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             Titel = "Engels1A"
@@ -247,8 +267,10 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             LesId = 6,
+                            DocentId = 0,
                             LokaalId = 1,
                             Omschrijving = "Pronunciation",
+                            StudentId = 0,
                             TijdstipEinde = new DateTime(2023, 9, 28, 10, 30, 0, 0, DateTimeKind.Unspecified),
                             TijdstipStart = new DateTime(2023, 9, 28, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             Titel = "Engels1B"
@@ -256,8 +278,10 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             LesId = 7,
+                            DocentId = 0,
                             LokaalId = 1,
                             Omschrijving = "Wat is economie?",
+                            StudentId = 0,
                             TijdstipEinde = new DateTime(2029, 9, 23, 10, 30, 0, 0, DateTimeKind.Unspecified),
                             TijdstipStart = new DateTime(2023, 9, 29, 9, 0, 0, 0, DateTimeKind.Unspecified),
                             Titel = "Economie1A"
@@ -502,19 +526,13 @@ namespace LeerplatformJH.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VakInschrijvingId"), 1L, 1);
 
-                    b.Property<int?>("DocentId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("GebruikerId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int?>("Goedkeuring")
                         .HasColumnType("int");
 
-                    b.Property<int?>("LesId")
+                    b.Property<int>("StudentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StudentId")
+                    b.Property<int?>("StudentInschrijvingenId")
                         .HasColumnType("int");
 
                     b.Property<string>("Titel")
@@ -525,13 +543,9 @@ namespace LeerplatformJH.Data.Migrations
 
                     b.HasKey("VakInschrijvingId");
 
-                    b.HasIndex("DocentId");
-
-                    b.HasIndex("GebruikerId");
-
-                    b.HasIndex("LesId");
-
                     b.HasIndex("StudentId");
+
+                    b.HasIndex("StudentInschrijvingenId");
 
                     b.HasIndex("VakId");
 
@@ -716,19 +730,14 @@ namespace LeerplatformJH.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("Goedkeuring")
+                    b.Property<int>("StudentId")
                         .HasColumnType("int");
-
-                    b.Property<int>("Studiepunten")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Vak")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("StudentInschrijvingen");
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("StudentInschrijvingen", (string)null);
                 });
 
             modelBuilder.Entity("LeerplatformJH.Models.ViewModels.StudentLessen", b =>
@@ -739,50 +748,14 @@ namespace LeerplatformJH.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Adres")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Docent")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Locatie")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Omschrijving")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("TijdstipEinde")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("TijdstipStart")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Vak")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("StudentLessen");
-                });
+                    b.HasIndex("StudentId");
 
-            modelBuilder.Entity("LesStudent", b =>
-                {
-                    b.Property<int>("LessenLesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StudentenStudentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("LessenLesId", "StudentenStudentId");
-
-                    b.HasIndex("StudentenStudentId");
-
-                    b.ToTable("LesStudent");
+                    b.ToTable("StudentLessen", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -987,31 +960,13 @@ namespace LeerplatformJH.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("LeerplatformJH.Models.Gebruiker", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<string>("Achternaam")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("GebruikerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Voornaam")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.ToTable("Gebruiker", (string)null);
-                });
-
             modelBuilder.Entity("LeerplatformJH.Models.Les", b =>
                 {
-                    b.HasOne("LeerplatformJH.Models.Docent", null)
+                    b.HasOne("LeerplatformJH.Models.Docent", "Docent")
                         .WithMany("Lessen")
-                        .HasForeignKey("DocentId");
+                        .HasForeignKey("DocentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("LeerplatformJH.Models.Lokaal", "Lokaal")
                         .WithMany("Lessen")
@@ -1019,11 +974,25 @@ namespace LeerplatformJH.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("LeerplatformJH.Models.Student", "Student")
+                        .WithMany("Lessen")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LeerplatformJH.Models.ViewModels.StudentLessen", null)
+                        .WithMany("Lessen")
+                        .HasForeignKey("StudentLessenId");
+
                     b.HasOne("LeerplatformJH.Models.Vak", null)
                         .WithMany("Lessen")
                         .HasForeignKey("VakId");
 
+                    b.Navigation("Docent");
+
                     b.Navigation("Lokaal");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("LeerplatformJH.Models.Vak", b =>
@@ -1039,23 +1008,15 @@ namespace LeerplatformJH.Data.Migrations
 
             modelBuilder.Entity("LeerplatformJH.Models.VakInschrijving", b =>
                 {
-                    b.HasOne("LeerplatformJH.Models.Docent", null)
-                        .WithMany("VakInschrijvingen")
-                        .HasForeignKey("DocentId");
-
-                    b.HasOne("LeerplatformJH.Models.Gebruiker", "Gebruiker")
-                        .WithMany("Vakinschrijvingen")
-                        .HasForeignKey("GebruikerId");
-
-                    b.HasOne("LeerplatformJH.Models.Les", null)
-                        .WithMany("VakInschrijvingen")
-                        .HasForeignKey("LesId");
-
                     b.HasOne("LeerplatformJH.Models.Student", "Student")
                         .WithMany("Vakinschrijvingen")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("LeerplatformJH.Models.ViewModels.StudentInschrijvingen", null)
+                        .WithMany("VakInschrijvingen")
+                        .HasForeignKey("StudentInschrijvingenId");
 
                     b.HasOne("LeerplatformJH.Models.Vak", "Vak")
                         .WithMany("VakInschrijvingen")
@@ -1063,26 +1024,31 @@ namespace LeerplatformJH.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Gebruiker");
-
                     b.Navigation("Student");
 
                     b.Navigation("Vak");
                 });
 
-            modelBuilder.Entity("LesStudent", b =>
+            modelBuilder.Entity("LeerplatformJH.Models.ViewModels.StudentInschrijvingen", b =>
                 {
-                    b.HasOne("LeerplatformJH.Models.Les", null)
+                    b.HasOne("LeerplatformJH.Models.Student", "Student")
                         .WithMany()
-                        .HasForeignKey("LessenLesId")
+                        .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LeerplatformJH.Models.Student", null)
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("LeerplatformJH.Models.ViewModels.StudentLessen", b =>
+                {
+                    b.HasOne("LeerplatformJH.Models.Student", "Student")
                         .WithMany()
-                        .HasForeignKey("StudentenStudentId")
+                        .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1136,25 +1102,9 @@ namespace LeerplatformJH.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("LeerplatformJH.Models.Gebruiker", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithOne()
-                        .HasForeignKey("LeerplatformJH.Models.Gebruiker", "Id")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("LeerplatformJH.Models.Docent", b =>
                 {
                     b.Navigation("Lessen");
-
-                    b.Navigation("VakInschrijvingen");
-                });
-
-            modelBuilder.Entity("LeerplatformJH.Models.Les", b =>
-                {
-                    b.Navigation("VakInschrijvingen");
                 });
 
             modelBuilder.Entity("LeerplatformJH.Models.Lokaal", b =>
@@ -1164,6 +1114,8 @@ namespace LeerplatformJH.Data.Migrations
 
             modelBuilder.Entity("LeerplatformJH.Models.Student", b =>
                 {
+                    b.Navigation("Lessen");
+
                     b.Navigation("Vakinschrijvingen");
                 });
 
@@ -1174,9 +1126,14 @@ namespace LeerplatformJH.Data.Migrations
                     b.Navigation("VakInschrijvingen");
                 });
 
-            modelBuilder.Entity("LeerplatformJH.Models.Gebruiker", b =>
+            modelBuilder.Entity("LeerplatformJH.Models.ViewModels.StudentInschrijvingen", b =>
                 {
-                    b.Navigation("Vakinschrijvingen");
+                    b.Navigation("VakInschrijvingen");
+                });
+
+            modelBuilder.Entity("LeerplatformJH.Models.ViewModels.StudentLessen", b =>
+                {
+                    b.Navigation("Lessen");
                 });
 #pragma warning restore 612, 618
         }

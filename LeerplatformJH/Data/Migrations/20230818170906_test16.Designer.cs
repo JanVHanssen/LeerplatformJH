@@ -4,6 +4,7 @@ using LeerplatformJH.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LeerplatformJH.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230818170906_test16")]
+    partial class test16
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -153,6 +155,37 @@ namespace LeerplatformJH.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("LeerplatformJH.Models.Gebruiker", b =>
+                {
+                    b.Property<int>("GebruikerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GebruikerId"), 1L, 1);
+
+                    b.Property<string>("Achternaam")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UNummer")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Voornaam")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("GebruikerId");
+
+                    b.ToTable("Gebruiker", (string)null);
+                });
+
             modelBuilder.Entity("LeerplatformJH.Models.Les", b =>
                 {
                     b.Property<int>("LesId")
@@ -171,6 +204,9 @@ namespace LeerplatformJH.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<int?>("PlanningId")
+                        .HasColumnType("int");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
@@ -197,6 +233,8 @@ namespace LeerplatformJH.Data.Migrations
                     b.HasIndex("DocentId");
 
                     b.HasIndex("LokaalId");
+
+                    b.HasIndex("PlanningId");
 
                     b.HasIndex("StudentId");
 
@@ -357,6 +395,29 @@ namespace LeerplatformJH.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("LeerplatformJH.Models.Planning", b =>
+                {
+                    b.Property<int>("PlanningId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PlanningId"), 1L, 1);
+
+                    b.Property<int>("LokaalId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Titel")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("PlanningId");
+
+                    b.HasIndex("LokaalId");
+
+                    b.ToTable("Planningen");
+                });
+
             modelBuilder.Entity("LeerplatformJH.Models.Student", b =>
                 {
                     b.Property<int>("StudentId")
@@ -377,12 +438,17 @@ namespace LeerplatformJH.Data.Migrations
                     b.Property<DateTime>("Inschrijvingsdatum")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("PlanningId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Voornaam")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("StudentId");
+
+                    b.HasIndex("PlanningId");
 
                     b.ToTable("Student", (string)null);
 
@@ -524,6 +590,9 @@ namespace LeerplatformJH.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VakInschrijvingId"), 1L, 1);
 
+                    b.Property<int?>("GebruikerId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("Goedkeuring")
                         .HasColumnType("int");
 
@@ -540,6 +609,8 @@ namespace LeerplatformJH.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("VakInschrijvingId");
+
+                    b.HasIndex("GebruikerId");
 
                     b.HasIndex("StudentId");
 
@@ -735,7 +806,7 @@ namespace LeerplatformJH.Data.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("StudentInschrijvingen", (string)null);
+                    b.ToTable("StudentInschrijvingen");
                 });
 
             modelBuilder.Entity("LeerplatformJH.Models.ViewModels.StudentLessen", b =>
@@ -746,14 +817,14 @@ namespace LeerplatformJH.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("StudentId")
+                    b.Property<int>("LesStudentStudentId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StudentId");
+                    b.HasIndex("LesStudentStudentId");
 
-                    b.ToTable("StudentLessen", (string)null);
+                    b.ToTable("StudentLessen");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -972,6 +1043,10 @@ namespace LeerplatformJH.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("LeerplatformJH.Models.Planning", null)
+                        .WithMany("Lessen")
+                        .HasForeignKey("PlanningId");
+
                     b.HasOne("LeerplatformJH.Models.Student", "Student")
                         .WithMany("Lessen")
                         .HasForeignKey("StudentId")
@@ -993,6 +1068,24 @@ namespace LeerplatformJH.Data.Migrations
                     b.Navigation("Student");
                 });
 
+            modelBuilder.Entity("LeerplatformJH.Models.Planning", b =>
+                {
+                    b.HasOne("LeerplatformJH.Models.Lokaal", "Lokaal")
+                        .WithMany()
+                        .HasForeignKey("LokaalId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Lokaal");
+                });
+
+            modelBuilder.Entity("LeerplatformJH.Models.Student", b =>
+                {
+                    b.HasOne("LeerplatformJH.Models.Planning", null)
+                        .WithMany("Studenten")
+                        .HasForeignKey("PlanningId");
+                });
+
             modelBuilder.Entity("LeerplatformJH.Models.Vak", b =>
                 {
                     b.HasOne("LeerplatformJH.Models.Docent", "Docent")
@@ -1006,6 +1099,10 @@ namespace LeerplatformJH.Data.Migrations
 
             modelBuilder.Entity("LeerplatformJH.Models.VakInschrijving", b =>
                 {
+                    b.HasOne("LeerplatformJH.Models.Gebruiker", null)
+                        .WithMany("Vakinschrijvingen")
+                        .HasForeignKey("GebruikerId");
+
                     b.HasOne("LeerplatformJH.Models.Student", "Student")
                         .WithMany("Vakinschrijvingen")
                         .HasForeignKey("StudentId")
@@ -1040,13 +1137,13 @@ namespace LeerplatformJH.Data.Migrations
 
             modelBuilder.Entity("LeerplatformJH.Models.ViewModels.StudentLessen", b =>
                 {
-                    b.HasOne("LeerplatformJH.Models.Student", "Student")
+                    b.HasOne("LeerplatformJH.Models.Student", "LesStudent")
                         .WithMany()
-                        .HasForeignKey("StudentId")
+                        .HasForeignKey("LesStudentStudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Student");
+                    b.Navigation("LesStudent");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1105,9 +1202,21 @@ namespace LeerplatformJH.Data.Migrations
                     b.Navigation("Lessen");
                 });
 
+            modelBuilder.Entity("LeerplatformJH.Models.Gebruiker", b =>
+                {
+                    b.Navigation("Vakinschrijvingen");
+                });
+
             modelBuilder.Entity("LeerplatformJH.Models.Lokaal", b =>
                 {
                     b.Navigation("Lessen");
+                });
+
+            modelBuilder.Entity("LeerplatformJH.Models.Planning", b =>
+                {
+                    b.Navigation("Lessen");
+
+                    b.Navigation("Studenten");
                 });
 
             modelBuilder.Entity("LeerplatformJH.Models.Student", b =>

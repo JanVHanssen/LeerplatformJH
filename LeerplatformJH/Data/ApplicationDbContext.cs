@@ -5,7 +5,7 @@ using LeerplatformJH.Models.ViewModels;
 
 namespace LeerplatformJH.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<Gebruiker>
+    public class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -20,9 +20,6 @@ namespace LeerplatformJH.Data
         public DbSet<Administrator> Administratoren { get; set; }
         public DbSet<StudentLessen> StudentLessen { get; set; }
         public DbSet<StudentInschrijvingen> StudentInschrijvingen { get; set; }
-        public DbSet<Gebruiker> gebruikers { get; set; }
-        public DbSet<StudentLessen> studentLessen { get; set; }
-        public DbSet<StudentInschrijvingen> studentInschrijvingen { get; set; } 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -33,13 +30,11 @@ namespace LeerplatformJH.Data
             modelBuilder.Entity<Docent>().ToTable("Docent");
             modelBuilder.Entity<Les>().ToTable("Les");
             modelBuilder.Entity<Administrator>().ToTable("Administrator");
-            modelBuilder.Entity<Gebruiker>().ToTable("Gebruiker");
+            modelBuilder.Entity<StudentInschrijvingen>().ToTable("StudentInschrijvingen");
+            modelBuilder.Entity<StudentLessen>().ToTable("StudentLessen");
 
 
-            var gebruikers = new Gebruiker[]
-            {
-                   new Gebruiker { GebruikerId = 1, Voornaam = "Bart", Achternaam = "Peters", Email = "Bart.Peters@Hotmail.com"}
-            };
+
          var studenten = new Student[]
             {
                 new Student { StudentId = 1, Voornaam = "Jan",   Achternaam = "Hanssen", Email = "Jan.Hanssen@hotmail.com",

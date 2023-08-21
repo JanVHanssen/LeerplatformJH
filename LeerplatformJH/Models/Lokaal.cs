@@ -9,7 +9,7 @@ namespace LeerplatformJH.Models
 {
     public class Lokaal
     {
-        [Key]
+        
         public int LokaalId { get; set; }
         [Required(ErrorMessage = "Titel is verplicht")]
         [Display(Name = "Titel")]
