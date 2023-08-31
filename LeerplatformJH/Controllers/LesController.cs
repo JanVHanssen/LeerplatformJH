@@ -21,7 +21,7 @@ namespace LeerplatformJH.Controllers
         {
             _lesService = lesService;
         }
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator, Docent")]
         public IActionResult LoadAllLessen()
         {
             try
@@ -38,7 +38,7 @@ namespace LeerplatformJH.Controllers
         }
 
         // GET: Les
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator, Docent")]
         public async Task<IActionResult> Index()
         {
             return View(_lesService.GetAllLes());
@@ -46,7 +46,7 @@ namespace LeerplatformJH.Controllers
         }
 
         // GET: Les/Details/5
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator, Docent")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -65,7 +65,7 @@ namespace LeerplatformJH.Controllers
         }
 
         // GET: Les/Create
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator, Docent")]
         public IActionResult Create()
         {
             return View();
@@ -76,7 +76,7 @@ namespace LeerplatformJH.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator, Docent")]
         public async Task<IActionResult> Create([Bind("LesId,Titel,Omschrijving,TijdstipStart,TijdstipEinde")] Les les)
         {
             if (ModelState.IsValid)
@@ -88,7 +88,7 @@ namespace LeerplatformJH.Controllers
         }
 
         // GET: Les/Edit/5
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator, Docent")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _lesService.GetLes(id) == null)
@@ -109,7 +109,7 @@ namespace LeerplatformJH.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator, Docent")]
         public async Task<IActionResult> Edit(int id, [Bind("LesId,Titel,Omschrijving,TijdstipStart,TijdstipEinde")] Les les)
         {
             if (id != les.LesId)
@@ -140,7 +140,7 @@ namespace LeerplatformJH.Controllers
         }
 
         // GET: Les/Delete/5
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator, Docent")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _lesService.GetLes(id) == null)
@@ -160,7 +160,7 @@ namespace LeerplatformJH.Controllers
         // POST: Les/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator, Docent")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_lesService.GetLes(id) == null)

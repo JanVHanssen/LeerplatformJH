@@ -13,19 +13,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Titel)
+               Vak
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Omschrijving)
+                Omschrijving
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TijdstipStart)
+                Start van de les
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TijdstipEinde)
+                Einde van de les
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Lokaal)
+                Lokaal
+            </th>
+            <th>
+                Docent
             </th>
             <th></th>
         </tr>
@@ -46,8 +49,11 @@
                 @Html.DisplayFor(modelItem => item.TijdstipEinde)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Lokaal.Omschrijving)
+                @Html.DisplayFor(modelItem => item.Lokaal.Titel)
             </td>
+                <td>
+                   Prof. @Html.DisplayFor(modelItem => item.Docent.Achternaam)
+                </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.LesId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.LesId">Details</a> |
@@ -72,15 +78,19 @@
                     "datatype": "json"
                 },
                 "columns": [
-                    { "data": "lesId" },
-                    { "data": "titel" },
-                    { "data": "omschrijving" },
-                    { "data": "tijdstipstart" },
-                    { "data": "tijdstipeinde" },
-                    { "data": "lokaalId"},
-                    { "data": "lokaal" },
-                    { "data": "vakinschrijvingen" },
-                    { "data": "studenten" }
+                    { "data": "LesId"},
+                    { "data": "Titel"},
+                    { "data": "Omschrijving" },
+                    { "data": "TijdstipStart"},
+                    { "data": "TijdstipEinde"},
+                    { "data": "Lokaal.Titel"},
+                    { "data": "Docent.Achternaam"},
+                    {
+                        "data": null,
+                        "render": function (data, type, row) {
+                            return data.Lokaal.Titel;
+                        }
+                    }
                 ]
 
             });

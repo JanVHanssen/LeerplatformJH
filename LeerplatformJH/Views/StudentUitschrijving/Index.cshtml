@@ -1,0 +1,38 @@
+﻿@model LeerplatformJH.Models.ViewModels.StudentUitschrijving
+
+<h1>Student Uitschrijvingen</h1>
+
+<p>Student Naam: @Model.Student.Voornaam @Model.Student.Achternaam</p>
+
+@if (Model.Vakken.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Vak Titel</th>
+                <th>Uitschrijven</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var vak in Model.Vakken)
+            {
+                <tr>
+                    <td>@vak.Titel</td>
+                    <td>
+                        <form asp-controller="StudentUitschrijving" asp-action="Delete" method="post">
+                            <input type="hidden" name="SelectedVakId" value="@vak.VakId" />
+                            <input type="hidden" name="Id" value="@Model.Id" />
+                            <button type="submit" class="btn btn-danger">Uitschrijven</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>De student heeft geen inschrijvingen.</p>
+}
+
+<a asp-action="Index" asp-controller="Home">Terug naar Home</a>

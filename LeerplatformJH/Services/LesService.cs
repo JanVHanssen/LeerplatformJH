@@ -1,6 +1,7 @@
 ﻿using LeerplatformJH.Data;
 using LeerplatformJH.Models;
 using LeerplatformJH.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace LeerplatformJH.Services
 {
@@ -34,8 +35,8 @@ namespace LeerplatformJH.Services
 
         public IEnumerable<Les> GetAllLes()
         {
-            var all = from a in _context.Lessen
-                      select a;
+            var all = _context.Lessen.Include(l => l.Lokaal)
+                                     .Include(l => l.Docent); 
             return all;
         }
 
