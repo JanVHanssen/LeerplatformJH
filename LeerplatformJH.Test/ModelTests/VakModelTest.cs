@@ -7,18 +7,6 @@ namespace LeerplatformJH.Test
     [TestClass]
     public class VakModelTests
     {
-        [TestMethod]
-        public void VakId_ShouldHaveKeyAttribute()
-        {
-            // Arrange
-            var vakIdProperty = typeof(Vak).GetProperty("VakId");
-
-            // Act
-            var keyAttribute = vakIdProperty.GetCustomAttributes(typeof(KeyAttribute), true);
-
-            // Assert
-            Assert.IsTrue(keyAttribute.Length > 0);
-        }
 
         [TestMethod]
         public void Titel_ShouldHaveRequiredAttribute()

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using LeerplatformJH.Data;
 using LeerplatformJH.Models;
 using LeerplatformJH.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LeerplatformJH.Controllers
 {
@@ -20,7 +21,7 @@ namespace LeerplatformJH.Controllers
         {
             _lokaalService = lokaalService;
         }
-
+        [Authorize(Roles = "Administrator")]
         public IActionResult LoadAllLokalen()
         {
             try
@@ -37,6 +38,7 @@ namespace LeerplatformJH.Controllers
         }
 
         // GET: Lokaals
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Index()
         {
             return View(_lokaalService.GetAllLokalen());
@@ -44,6 +46,7 @@ namespace LeerplatformJH.Controllers
         }
 
         // GET: Lokaals/Details/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -62,6 +65,7 @@ namespace LeerplatformJH.Controllers
         }
 
         // GET: Lokaals/Create
+        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             return View();
@@ -72,6 +76,7 @@ namespace LeerplatformJH.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create([Bind("LokaalId,Titel,Omschrijving,Capaciteit,Middelen")] Lokaal lokaal)
         {
             if (ModelState.IsValid)
@@ -83,6 +88,7 @@ namespace LeerplatformJH.Controllers
         }
 
         // GET: Lokaals/Edit/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _lokaalService.GetLokaal(id) == null)
@@ -103,6 +109,7 @@ namespace LeerplatformJH.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int id, [Bind("LokaalId,Titel,Omschrijving,Capaciteit,Middelen")] Lokaal lokaal)
         {
             if (id != lokaal.LokaalId)
@@ -133,6 +140,7 @@ namespace LeerplatformJH.Controllers
         }
 
         // GET: Lokaals/Delete/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _lokaalService.GetLokaal(id) == null)
@@ -152,6 +160,7 @@ namespace LeerplatformJH.Controllers
         // POST: Lokaals/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_lokaalService.GetLokaal(id) == null)

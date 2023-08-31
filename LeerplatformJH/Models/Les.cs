@@ -32,9 +32,11 @@ namespace LeerplatformJH.Models
         public int LokaalId { get; set; }
         public int StudentId { get; set; }
         public int DocentId { get; set; }
+        public int VakId { get; set; }
+        public virtual Vak? Vak { get; set; }
         public virtual Lokaal? Lokaal { get; set; }
-        public virtual Docent Docent { get; set; }
-        public virtual Student Student { get; set; }
+        public virtual Docent? Docent { get; set; }
+        public ICollection<Student>? Studenten { get; set; }
 
     }
 

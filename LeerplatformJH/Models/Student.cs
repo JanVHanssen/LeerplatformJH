@@ -8,8 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace LeerplatformJH.Models
 {
     public class Student
-    {
-        
+    {       
         public int StudentId { get; set; }
         [Required(ErrorMessage = "Achternaam is verplicht")]
         [Display(Name = "Achternaam")]

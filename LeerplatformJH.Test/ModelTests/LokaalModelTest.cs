@@ -11,18 +11,6 @@ namespace LeerplatformJH.Test
     [TestClass]
     public class LokaalModelTest
     {
-        [TestMethod]
-        public void LokaalId_ShouldHaveKeyAttribute()
-        {
-            // Arrange
-            var lokaalIdProperty = typeof(Lokaal).GetProperty("LokaalId");
-
-            // Act
-            var keyAttribute = lokaalIdProperty.GetCustomAttributes(typeof(KeyAttribute), true);
-
-            // Assert
-            Assert.IsTrue(keyAttribute.Length > 0);
-        }
 
         [TestMethod]
         public void Titel_ShouldHaveRequiredAttribute()

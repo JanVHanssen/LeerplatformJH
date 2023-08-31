@@ -2,6 +2,7 @@
 using LeerplatformJH.Models;
 using Microsoft.AspNetCore.Mvc;
 using LeerplatformJH.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LeerplatformJH.Controllers
 {
@@ -14,7 +15,7 @@ namespace LeerplatformJH.Controllers
             _context = context;
         }
 
-
+        [Authorize(Roles = "Student")]
         public IActionResult Create()
         {
 
@@ -37,6 +38,7 @@ namespace LeerplatformJH.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Student")]
         public IActionResult Create(StudentNieuweInschrijving viewModel)
         {
             if (ModelState.IsValid)

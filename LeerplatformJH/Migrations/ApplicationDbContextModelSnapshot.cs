@@ -4,18 +4,16 @@ using LeerplatformJH.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace LeerplatformJH.Data.Migrations
+namespace LeerplatformJH.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230813145815_service1")]
-    partial class service1
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,7 +161,7 @@ namespace LeerplatformJH.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LesId"), 1L, 1);
 
-                    b.Property<int?>("DocentId")
+                    b.Property<int>("DocentId")
                         .HasColumnType("int");
 
                     b.Property<int>("LokaalId")
@@ -173,6 +171,9 @@ namespace LeerplatformJH.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("StudentLessenId")
                         .HasColumnType("int");
@@ -188,7 +189,7 @@ namespace LeerplatformJH.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("VakId")
+                    b.Property<int>("VakId")
                         .HasColumnType("int");
 
                     b.HasKey("LesId");
@@ -207,65 +208,86 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             LesId = 1,
+                            DocentId = 2,
                             LokaalId = 1,
                             Omschrijving = "Introductie tot de lineaire algebra",
+                            StudentId = 0,
                             TijdstipEinde = new DateTime(2023, 9, 23, 10, 30, 0, 0, DateTimeKind.Unspecified),
                             TijdstipStart = new DateTime(2023, 9, 23, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            Titel = "Wiskunde1A"
+                            Titel = "Wiskunde1A",
+                            VakId = 2
                         },
                         new
                         {
                             LesId = 2,
+                            DocentId = 4,
                             LokaalId = 2,
                             Omschrijving = "Marxisme",
+                            StudentId = 0,
                             TijdstipEinde = new DateTime(2023, 9, 24, 10, 30, 0, 0, DateTimeKind.Unspecified),
                             TijdstipStart = new DateTime(2023, 9, 24, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            Titel = "Economie1B"
+                            Titel = "Economie1B",
+                            VakId = 4
                         },
                         new
                         {
                             LesId = 3,
+                            DocentId = 3,
                             LokaalId = 3,
                             Omschrijving = "Het lijdend voorwerp",
+                            StudentId = 0,
                             TijdstipEinde = new DateTime(2023, 9, 25, 10, 30, 0, 0, DateTimeKind.Unspecified),
                             TijdstipStart = new DateTime(2023, 9, 25, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            Titel = "Nederlands1A"
+                            Titel = "Nederlands1A",
+                            VakId = 3
                         },
                         new
                         {
                             LesId = 4,
+                            DocentId = 3,
                             LokaalId = 5,
                             Omschrijving = "Het meewerkend voorwerp",
+                            StudentId = 0,
                             TijdstipEinde = new DateTime(2023, 9, 26, 10, 30, 0, 0, DateTimeKind.Unspecified),
                             TijdstipStart = new DateTime(2023, 9, 26, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            Titel = "Nederlands1B"
+                            Titel = "Nederlands1B",
+                            VakId = 3
                         },
                         new
                         {
                             LesId = 5,
+                            DocentId = 1,
                             LokaalId = 4,
                             Omschrijving = "Inleiding",
+                            StudentId = 0,
                             TijdstipEinde = new DateTime(2023, 9, 27, 10, 30, 0, 0, DateTimeKind.Unspecified),
                             TijdstipStart = new DateTime(2023, 9, 27, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            Titel = "Engels1A"
+                            Titel = "Engels1A",
+                            VakId = 1
                         },
                         new
                         {
                             LesId = 6,
+                            DocentId = 1,
                             LokaalId = 1,
                             Omschrijving = "Pronunciation",
+                            StudentId = 0,
                             TijdstipEinde = new DateTime(2023, 9, 28, 10, 30, 0, 0, DateTimeKind.Unspecified),
                             TijdstipStart = new DateTime(2023, 9, 28, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            Titel = "Engels1B"
+                            Titel = "Engels1B",
+                            VakId = 1
                         },
                         new
                         {
                             LesId = 7,
+                            DocentId = 4,
                             LokaalId = 1,
                             Omschrijving = "Wat is economie?",
+                            StudentId = 0,
                             TijdstipEinde = new DateTime(2029, 9, 23, 10, 30, 0, 0, DateTimeKind.Unspecified),
                             TijdstipStart = new DateTime(2023, 9, 29, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            Titel = "Economie1A"
+                            Titel = "Economie1A",
+                            VakId = 4
                         });
                 });
 
@@ -501,22 +523,16 @@ namespace LeerplatformJH.Data.Migrations
 
             modelBuilder.Entity("LeerplatformJH.Models.VakInschrijving", b =>
                 {
-                    b.Property<int>("VakId")
+                    b.Property<int>("VakInschrijvingId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DocentId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("GebruikerId")
-                        .HasColumnType("nvarchar(450)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VakInschrijvingId"), 1L, 1);
 
                     b.Property<int?>("Goedkeuring")
                         .HasColumnType("int");
 
-                    b.Property<int?>("LesId")
+                    b.Property<int>("StudentId")
                         .HasColumnType("int");
 
                     b.Property<int?>("StudentInschrijvingenId")
@@ -525,237 +541,261 @@ namespace LeerplatformJH.Data.Migrations
                     b.Property<string>("Titel")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("VakInschrijvingId")
+                    b.Property<int>("VakId")
                         .HasColumnType("int");
 
-                    b.HasKey("VakId", "StudentId");
-
-                    b.HasIndex("DocentId");
-
-                    b.HasIndex("GebruikerId");
-
-                    b.HasIndex("LesId");
+                    b.HasKey("VakInschrijvingId");
 
                     b.HasIndex("StudentId");
 
                     b.HasIndex("StudentInschrijvingenId");
+
+                    b.HasIndex("VakId");
 
                     b.ToTable("Inschrijving", (string)null);
 
                     b.HasData(
                         new
                         {
-                            VakId = 3,
+                            VakInschrijvingId = 1,
+                            Goedkeuring = 0,
                             StudentId = 1,
                             Titel = "Jan Hanssen Nederlands 2023",
-                            VakInschrijvingId = 1
+                            VakId = 3
                         },
                         new
                         {
-                            VakId = 2,
+                            VakInschrijvingId = 2,
+                            Goedkeuring = 0,
                             StudentId = 1,
                             Titel = "Jan Hanssen Wiskunde 2023",
-                            VakInschrijvingId = 2
+                            VakId = 2
                         },
                         new
                         {
-                            VakId = 1,
+                            VakInschrijvingId = 3,
+                            Goedkeuring = 0,
                             StudentId = 1,
                             Titel = "Jan Hanssen Engels 2023",
-                            VakInschrijvingId = 3
+                            VakId = 1
                         },
                         new
                         {
-                            VakId = 1,
+                            VakInschrijvingId = 4,
+                            Goedkeuring = 0,
                             StudentId = 2,
                             Titel = "Wim Billen Engels 2023",
-                            VakInschrijvingId = 4
+                            VakId = 1
                         },
                         new
                         {
-                            VakId = 5,
+                            VakInschrijvingId = 5,
+                            Goedkeuring = 1,
                             StudentId = 2,
                             Titel = "Wim Billen Frans 2023",
-                            VakInschrijvingId = 5
+                            VakId = 5
                         },
                         new
                         {
-                            VakId = 3,
+                            VakInschrijvingId = 6,
+                            Goedkeuring = 2,
                             StudentId = 2,
                             Titel = "Wim Billen Nederlands 2023",
-                            VakInschrijvingId = 6
+                            VakId = 3
                         },
                         new
                         {
-                            VakId = 4,
+                            VakInschrijvingId = 7,
+                            Goedkeuring = 0,
                             StudentId = 3,
                             Titel = "Anne Broekmans Economie 2023",
-                            VakInschrijvingId = 7
+                            VakId = 4
                         },
                         new
                         {
-                            VakId = 2,
+                            VakInschrijvingId = 8,
+                            Goedkeuring = 1,
                             StudentId = 3,
                             Titel = "Anne Broekmans Wiskunde 2023",
-                            VakInschrijvingId = 8
+                            VakId = 2
                         },
                         new
                         {
-                            VakId = 1,
+                            VakInschrijvingId = 9,
+                            Goedkeuring = 2,
                             StudentId = 3,
                             Titel = "Anne Broekmans Engels 2023",
-                            VakInschrijvingId = 9
+                            VakId = 1
                         },
                         new
                         {
-                            VakId = 1,
+                            VakInschrijvingId = 10,
+                            Goedkeuring = 0,
                             StudentId = 4,
                             Titel = "Sara Putzeys Engels 2023",
-                            VakInschrijvingId = 10
+                            VakId = 1
                         },
                         new
                         {
-                            VakId = 5,
+                            VakInschrijvingId = 11,
+                            Goedkeuring = 1,
                             StudentId = 4,
                             Titel = "Sara Putzeys Frans 2023",
-                            VakInschrijvingId = 11
+                            VakId = 5
                         },
                         new
                         {
-                            VakId = 3,
+                            VakInschrijvingId = 12,
+                            Goedkeuring = 0,
                             StudentId = 4,
                             Titel = "Sara Putzeys Nederlands 2023",
-                            VakInschrijvingId = 12
+                            VakId = 3
                         },
                         new
                         {
-                            VakId = 2,
+                            VakInschrijvingId = 13,
+                            Goedkeuring = 0,
                             StudentId = 5,
                             Titel = "Steven Grosemans Wiskunde 2023",
-                            VakInschrijvingId = 13
+                            VakId = 2
                         },
                         new
                         {
-                            VakId = 4,
+                            VakInschrijvingId = 14,
+                            Goedkeuring = 0,
                             StudentId = 5,
                             Titel = "Steven Grosemans Economie 2023",
-                            VakInschrijvingId = 14
+                            VakId = 4
                         },
                         new
                         {
-                            VakId = 5,
+                            VakInschrijvingId = 15,
+                            Goedkeuring = 0,
                             StudentId = 5,
                             Titel = "Steven Grosemans Frans 2023",
-                            VakInschrijvingId = 15
+                            VakId = 5
                         },
                         new
                         {
-                            VakId = 1,
+                            VakInschrijvingId = 16,
+                            Goedkeuring = 0,
                             StudentId = 6,
                             Titel = "Elke Vandeplas Engels 2023",
-                            VakInschrijvingId = 16
+                            VakId = 1
                         },
                         new
                         {
-                            VakId = 3,
+                            VakInschrijvingId = 17,
+                            Goedkeuring = 0,
                             StudentId = 6,
                             Titel = "Elke Vandeplas Nederlands 2023",
-                            VakInschrijvingId = 17
+                            VakId = 3
                         },
                         new
                         {
-                            VakId = 5,
+                            VakInschrijvingId = 18,
+                            Goedkeuring = 0,
                             StudentId = 6,
                             Titel = "Elke Vandeplas Frans 2023",
-                            VakInschrijvingId = 18
+                            VakId = 5
                         },
                         new
                         {
-                            VakId = 2,
+                            VakInschrijvingId = 19,
+                            Goedkeuring = 0,
                             StudentId = 7,
                             Titel = "Laura Janssen Wiskunde 2023",
-                            VakInschrijvingId = 19
+                            VakId = 2
                         },
                         new
                         {
-                            VakId = 4,
+                            VakInschrijvingId = 20,
+                            Goedkeuring = 0,
                             StudentId = 7,
                             Titel = "Laura Janssen Economie 2023",
-                            VakInschrijvingId = 20
+                            VakId = 4
                         },
                         new
                         {
-                            VakId = 3,
+                            VakInschrijvingId = 21,
+                            Goedkeuring = 0,
                             StudentId = 7,
                             Titel = "Laura Janssen Nederlands 2023",
-                            VakInschrijvingId = 21
+                            VakId = 3
                         },
                         new
                         {
-                            VakId = 1,
+                            VakInschrijvingId = 22,
+                            Goedkeuring = 0,
                             StudentId = 8,
                             Titel = "Willem Omloop Engels 2023",
-                            VakInschrijvingId = 22
+                            VakId = 1
                         },
                         new
                         {
-                            VakId = 5,
+                            VakInschrijvingId = 23,
+                            Goedkeuring = 0,
                             StudentId = 8,
                             Titel = "Willem Omloop Frans 2023",
-                            VakInschrijvingId = 23
+                            VakId = 5
                         },
                         new
                         {
-                            VakId = 2,
+                            VakInschrijvingId = 24,
+                            Goedkeuring = 0,
                             StudentId = 8,
                             Titel = "Willem Omloop Wiskunde 2023",
-                            VakInschrijvingId = 24
+                            VakId = 2
                         });
                 });
 
             modelBuilder.Entity("LeerplatformJH.Models.ViewModels.StudentInschrijvingen", b =>
                 {
-                    b.Property<int>("StudentInschrijvingenId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StudentInschrijvingenId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("StudentNaam")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
 
-                    b.HasKey("StudentInschrijvingenId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
 
                     b.ToTable("StudentInschrijvingen");
                 });
 
             modelBuilder.Entity("LeerplatformJH.Models.ViewModels.StudentLessen", b =>
                 {
-                    b.Property<int>("StudentLessenId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StudentLessenId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("StudentNaam")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
 
-                    b.HasKey("StudentLessenId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
 
                     b.ToTable("StudentLessen");
                 });
 
             modelBuilder.Entity("LesStudent", b =>
                 {
-                    b.Property<int>("LessenLesId")
+                    b.Property<int>("LesId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StudentenStudentId")
+                    b.Property<int>("StudentId")
                         .HasColumnType("int");
 
-                    b.HasKey("LessenLesId", "StudentenStudentId");
+                    b.HasKey("LesId", "StudentId");
 
-                    b.HasIndex("StudentenStudentId");
+                    b.HasIndex("StudentId");
 
                     b.ToTable("LesStudent");
                 });
@@ -962,31 +1002,13 @@ namespace LeerplatformJH.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("LeerplatformJH.Models.Gebruiker", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<string>("Achternaam")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("GebruikerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Voornaam")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.ToTable("Gebruiker", (string)null);
-                });
-
             modelBuilder.Entity("LeerplatformJH.Models.Les", b =>
                 {
-                    b.HasOne("LeerplatformJH.Models.Docent", null)
+                    b.HasOne("LeerplatformJH.Models.Docent", "Docent")
                         .WithMany("Lessen")
-                        .HasForeignKey("DocentId");
+                        .HasForeignKey("DocentId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.HasOne("LeerplatformJH.Models.Lokaal", "Lokaal")
                         .WithMany("Lessen")
@@ -998,17 +1020,23 @@ namespace LeerplatformJH.Data.Migrations
                         .WithMany("Lessen")
                         .HasForeignKey("StudentLessenId");
 
-                    b.HasOne("LeerplatformJH.Models.Vak", null)
+                    b.HasOne("LeerplatformJH.Models.Vak", "Vak")
                         .WithMany("Lessen")
-                        .HasForeignKey("VakId");
+                        .HasForeignKey("VakId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Docent");
 
                     b.Navigation("Lokaal");
+
+                    b.Navigation("Vak");
                 });
 
             modelBuilder.Entity("LeerplatformJH.Models.Vak", b =>
                 {
                     b.HasOne("LeerplatformJH.Models.Docent", "Docent")
-                        .WithMany()
+                        .WithMany("Vakken")
                         .HasForeignKey("DocentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1018,18 +1046,6 @@ namespace LeerplatformJH.Data.Migrations
 
             modelBuilder.Entity("LeerplatformJH.Models.VakInschrijving", b =>
                 {
-                    b.HasOne("LeerplatformJH.Models.Docent", null)
-                        .WithMany("VakInschrijvingen")
-                        .HasForeignKey("DocentId");
-
-                    b.HasOne("LeerplatformJH.Models.Gebruiker", "Gebruiker")
-                        .WithMany("Vakinschrijvingen")
-                        .HasForeignKey("GebruikerId");
-
-                    b.HasOne("LeerplatformJH.Models.Les", null)
-                        .WithMany("VakInschrijvingen")
-                        .HasForeignKey("LesId");
-
                     b.HasOne("LeerplatformJH.Models.Student", "Student")
                         .WithMany("Vakinschrijvingen")
                         .HasForeignKey("StudentId")
@@ -1046,24 +1062,44 @@ namespace LeerplatformJH.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Gebruiker");
-
                     b.Navigation("Student");
 
                     b.Navigation("Vak");
+                });
+
+            modelBuilder.Entity("LeerplatformJH.Models.ViewModels.StudentInschrijvingen", b =>
+                {
+                    b.HasOne("LeerplatformJH.Models.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("LeerplatformJH.Models.ViewModels.StudentLessen", b =>
+                {
+                    b.HasOne("LeerplatformJH.Models.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("LesStudent", b =>
                 {
                     b.HasOne("LeerplatformJH.Models.Les", null)
                         .WithMany()
-                        .HasForeignKey("LessenLesId")
+                        .HasForeignKey("LesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("LeerplatformJH.Models.Student", null)
                         .WithMany()
-                        .HasForeignKey("StudentenStudentId")
+                        .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1119,25 +1155,11 @@ namespace LeerplatformJH.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("LeerplatformJH.Models.Gebruiker", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithOne()
-                        .HasForeignKey("LeerplatformJH.Models.Gebruiker", "Id")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("LeerplatformJH.Models.Docent", b =>
                 {
                     b.Navigation("Lessen");
 
-                    b.Navigation("VakInschrijvingen");
-                });
-
-            modelBuilder.Entity("LeerplatformJH.Models.Les", b =>
-                {
-                    b.Navigation("VakInschrijvingen");
+                    b.Navigation("Vakken");
                 });
 
             modelBuilder.Entity("LeerplatformJH.Models.Lokaal", b =>
@@ -1165,11 +1187,6 @@ namespace LeerplatformJH.Data.Migrations
             modelBuilder.Entity("LeerplatformJH.Models.ViewModels.StudentLessen", b =>
                 {
                     b.Navigation("Lessen");
-                });
-
-            modelBuilder.Entity("LeerplatformJH.Models.Gebruiker", b =>
-                {
-                    b.Navigation("Vakinschrijvingen");
                 });
 #pragma warning restore 612, 618
         }

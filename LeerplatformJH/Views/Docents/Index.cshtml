@@ -52,12 +52,10 @@
         }
     </tbody>
 </table>
-<link rel="stylesheet" type="text/css"
-      href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
 @section Scripts
     {
-    <script type="text/javascript"
-            src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
     <script>
         $(function () {
             $('#custtable').DataTable({
@@ -67,15 +65,12 @@
                     "datatype": "json"
                 },
                 "columns": [
-                    { "data": "docentId" },
-                    { "data": "achternaam" },
-                    { "data": "voornaam" },
-                    { "data": "email" },
-                    { "data": "indiensttreding" },
-                    { "data": "lessen" },
-                    { "data": "vakinschrijvingen" },
-                ]
-
+                    { "data": "Achternaam" },
+                    { "data": "Voornaam" },
+                    { "data": "Email" },
+                    { "data": "Indiensttreding" },
+                ],
+                "searching": true
             });
         });
     </script>

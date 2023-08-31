@@ -18,24 +18,76 @@ namespace LeerplatformJH.Data
         public DbSet<Docent> Docenten { get; set; }
         public DbSet<Les> Lessen { get; set; }
         public DbSet<Administrator> Administratoren { get; set; }
-        public DbSet<StudentLessen> StudentLessen { get; set; }
-        public DbSet<StudentInschrijvingen> StudentInschrijvingen { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Vak>().ToTable("Vak");
+            modelBuilder.Entity<Vak>().ToTable("Vak")
+            .HasOne(v => v.Docent)
+            .WithMany(d => d.Vakken)
+            .HasForeignKey(v => v.DocentId);
+
+            modelBuilder.Entity<Vak>()
+                .HasMany(v => v.Lessen)
+                .WithOne(l => l.Vak)
+                .HasForeignKey(l => l.VakId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             modelBuilder.Entity<VakInschrijving>().ToTable("Inschrijving");
-            modelBuilder.Entity<Student>().ToTable("Student");
-            modelBuilder.Entity<Lokaal>().ToTable("Lokaal");
-            modelBuilder.Entity<Docent>().ToTable("Docent");
-            modelBuilder.Entity<Les>().ToTable("Les");
+
+            modelBuilder.Entity<Student>().ToTable("Student")
+                .HasMany(s => s.Vakinschrijvingen)
+                .WithOne(v => v.Student)
+                .HasForeignKey(v => v.StudentId);
+
+            modelBuilder.Entity<Lokaal>().ToTable("Lokaal")
+                .HasMany(l => l.Lessen)
+                .WithOne(l => l.Lokaal)
+                .HasForeignKey(l => l.LokaalId);
+
+            modelBuilder.Entity<Docent>().ToTable("Docent")
+                .HasMany(d => d.Lessen)
+                .WithOne(l => l.Docent)
+                .HasForeignKey(l => l.DocentId);
+
+            modelBuilder.Entity<Docent>()
+                .HasMany(d => d.Vakken)
+                .WithOne(v => v.Docent)
+                .HasForeignKey(v => v.DocentId);
+
+            modelBuilder.Entity<Les>().ToTable("Les")
+                .HasOne(l => l.Lokaal)
+                .WithMany(lk => lk.Lessen)
+                .HasForeignKey(l => l.LokaalId);
+
+            modelBuilder.Entity<Les>()
+                .HasOne(l => l.Docent)
+                .WithMany(d => d.Lessen)
+                .HasForeignKey(l => l.DocentId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Les>()
+                .HasOne(l => l.Vak)
+                .WithMany(v => v.Lessen)
+                .HasForeignKey(l => l.VakId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Les>()
+                .HasMany(l => l.Studenten)
+                .WithMany(s => s.Lessen)
+                .UsingEntity<Dictionary<string, object>>(
+                    "LesStudent",
+                    j => j.HasOne<Student>().WithMany().HasForeignKey("StudentId"),
+                    j => j.HasOne<Les>().WithMany().HasForeignKey("LesId")
+                );
+
             modelBuilder.Entity<Administrator>().ToTable("Administrator");
-            modelBuilder.Entity<StudentInschrijvingen>().ToTable("StudentInschrijvingen");
-            modelBuilder.Entity<StudentLessen>().ToTable("StudentLessen");
+            modelBuilder.Entity<StudentInschrijvingen>();
+            modelBuilder.Entity<StudentLessen>();
 
 
 
-         var studenten = new Student[]
+            var studenten = new Student[]
             {
                 new Student { StudentId = 1, Voornaam = "Jan",   Achternaam = "Hanssen", Email = "Jan.Hanssen@hotmail.com",
                     Inschrijvingsdatum = DateTime.Parse("2020-09-01") },
@@ -106,129 +158,130 @@ namespace LeerplatformJH.Data
             {
                 new VakInschrijving { VakInschrijvingId = 1, Titel = "Jan Hanssen Nederlands 2023",
                     StudentId = studenten.Single( s => s.Achternaam == "Hanssen").StudentId,
-                    VakId = vakken.Single( v => v.Titel == "Nederlands").VakId },
+                    VakId = vakken.Single( v => v.Titel == "Nederlands").VakId,  Goedkeuring = Goedkeuring.Toegelaten },
                 new VakInschrijving { VakInschrijvingId = 2, Titel = "Jan Hanssen Wiskunde 2023",
                     StudentId = studenten.Single( s => s.Achternaam == "Hanssen").StudentId,
-                    VakId = vakken.Single( v => v.Titel == "Wiskunde").VakId,
+                    VakId = vakken.Single( v => v.Titel == "Wiskunde").VakId,  Goedkeuring = Goedkeuring.Toegelaten
                     },
                 new VakInschrijving { VakInschrijvingId = 3, Titel = "Jan Hanssen Engels 2023",
                     StudentId = studenten.Single( s => s.Achternaam == "Hanssen").StudentId,
-                    VakId = vakken.Single( v => v.Titel == "Engels").VakId,
+                    VakId = vakken.Single( v => v.Titel == "Engels").VakId,  Goedkeuring = Goedkeuring.Toegelaten
                     },
                 new VakInschrijving { VakInschrijvingId = 4, Titel = "Wim Billen Engels 2023",
                     StudentId = studenten.Single( s => s.Achternaam == "Billen").StudentId,
-                    VakId = vakken.Single( v => v.Titel == "Engels").VakId,
+                    VakId = vakken.Single( v => v.Titel == "Engels").VakId,  Goedkeuring = Goedkeuring.Toegelaten
                     },
                 new VakInschrijving { VakInschrijvingId = 5, Titel = "Wim Billen Frans 2023",
                     StudentId = studenten.Single( s => s.Achternaam == "Billen").StudentId,
-                    VakId = vakken.Single( v => v.Titel == "Frans").VakId,
+                    VakId = vakken.Single( v => v.Titel == "Frans").VakId,  Goedkeuring = Goedkeuring.In_beraad
                     },
                 new VakInschrijving { VakInschrijvingId = 6, Titel = "Wim Billen Nederlands 2023",
                     StudentId = studenten.Single(s => s.Achternaam == "Billen").StudentId,
-                    VakId = vakken.Single(v => v.Titel == "Nederlands").VakId,
+                    VakId = vakken.Single(v => v.Titel == "Nederlands").VakId,  Goedkeuring = Goedkeuring.Afgewezen
                     },
                 new VakInschrijving { VakInschrijvingId = 7, Titel = "Anne Broekmans Economie 2023",
                     StudentId = studenten.Single( s => s.Achternaam == "Broekmans").StudentId,
-                    VakId = vakken.Single( v => v.Titel == "Economie").VakId,
+                    VakId = vakken.Single( v => v.Titel == "Economie").VakId,  Goedkeuring = Goedkeuring.Toegelaten
                     },
                 new VakInschrijving { VakInschrijvingId = 8, Titel = "Anne Broekmans Wiskunde 2023",
                     StudentId = studenten.Single(s => s.Achternaam == "Broekmans").StudentId, 
-                    VakId = vakken.Single(v => v.Titel == "Wiskunde").VakId,
+                    VakId = vakken.Single(v => v.Titel == "Wiskunde").VakId,  Goedkeuring = Goedkeuring.In_beraad
                     },
                 new VakInschrijving { VakInschrijvingId = 9, Titel = "Anne Broekmans Engels 2023",
                     StudentId = studenten.Single(s => s.Achternaam == "Broekmans").StudentId, 
-                    VakId = vakken.Single(v => v.Titel == "Engels").VakId,
+                    VakId = vakken.Single(v => v.Titel == "Engels").VakId,  Goedkeuring = Goedkeuring.Afgewezen
                     },
                 new VakInschrijving { VakInschrijvingId = 10, Titel = "Sara Putzeys Engels 2023",
                     StudentId = studenten.Single(s => s.Achternaam == "Putzeys").StudentId, 
-                    VakId = vakken.Single(v => v.Titel == "Engels").VakId,
+                    VakId = vakken.Single(v => v.Titel == "Engels").VakId,  Goedkeuring = Goedkeuring.Toegelaten
                     },
                 new VakInschrijving { VakInschrijvingId = 11, Titel = "Sara Putzeys Frans 2023",
                     StudentId = studenten.Single(s => s.Achternaam == "Putzeys").StudentId, 
-                    VakId = vakken.Single(v => v.Titel == "Frans").VakId,
+                    VakId = vakken.Single(v => v.Titel == "Frans").VakId,  Goedkeuring = Goedkeuring.In_beraad
                     },
                 new VakInschrijving { VakInschrijvingId = 12, Titel = "Sara Putzeys Nederlands 2023",
                     StudentId = studenten.Single(s => s.Achternaam == "Putzeys").StudentId,
-                    VakId = vakken.Single(v => v.Titel == "Nederlands").VakId,
+                    VakId = vakken.Single(v => v.Titel == "Nederlands").VakId,  Goedkeuring = Goedkeuring.Toegelaten
                     },
                 new VakInschrijving { VakInschrijvingId = 13, Titel = "Steven Grosemans Wiskunde 2023",
                     StudentId = studenten.Single(s => s.Achternaam == "Grosemans").StudentId, 
-                    VakId = vakken.Single(v => v.Titel == "Wiskunde").VakId,
+                    VakId = vakken.Single(v => v.Titel == "Wiskunde").VakId,  Goedkeuring = Goedkeuring.Toegelaten
                     },
                 new VakInschrijving { VakInschrijvingId = 14, Titel = "Steven Grosemans Economie 2023",
                     StudentId = studenten.Single(s => s.Achternaam == "Grosemans").StudentId,
-                    VakId = vakken.Single(v => v.Titel == "Economie").VakId,
+                    VakId = vakken.Single(v => v.Titel == "Economie").VakId,  Goedkeuring = Goedkeuring.Toegelaten
                     },
                 new VakInschrijving { VakInschrijvingId = 15, Titel = "Steven Grosemans Frans 2023",
                     StudentId = studenten.Single(s => s.Achternaam == "Grosemans").StudentId,
-                    VakId = vakken.Single(v => v.Titel == "Frans").VakId,
+                    VakId = vakken.Single(v => v.Titel == "Frans").VakId,  Goedkeuring = Goedkeuring.Toegelaten
                     },
                 new VakInschrijving { VakInschrijvingId = 16, Titel = "Elke Vandeplas Engels 2023",
                     StudentId = studenten.Single(s => s.Achternaam == "Vandeplas").StudentId,
-                    VakId = vakken.Single(v => v.Titel == "Engels").VakId,
+                    VakId = vakken.Single(v => v.Titel == "Engels").VakId,  Goedkeuring = Goedkeuring.Toegelaten
                     },
                 new VakInschrijving { VakInschrijvingId = 17, Titel = "Elke Vandeplas Nederlands 2023",
                     StudentId = studenten.Single( s => s.Achternaam == "Vandeplas").StudentId,
-                    VakId = vakken.Single( v => v.Titel == "Nederlands").VakId,
+                    VakId = vakken.Single( v => v.Titel == "Nederlands").VakId,  Goedkeuring = Goedkeuring.Toegelaten
                     },
                 new VakInschrijving { VakInschrijvingId = 18, Titel = "Elke Vandeplas Frans 2023",
                     StudentId = studenten.Single(s => s.Achternaam == "Vandeplas").StudentId,
-                    VakId = vakken.Single(v => v.Titel == "Frans").VakId,
+                    VakId = vakken.Single(v => v.Titel == "Frans").VakId,  Goedkeuring = Goedkeuring.Toegelaten
                     },
                 new VakInschrijving { VakInschrijvingId = 19, Titel = "Laura Janssen Wiskunde 2023",
                     StudentId = studenten.Single(s => s.Achternaam == "Janssen").StudentId,
-                    VakId = vakken.Single(v => v.Titel == "Wiskunde").VakId,
+                    VakId = vakken.Single(v => v.Titel == "Wiskunde").VakId,  Goedkeuring = Goedkeuring.Toegelaten
                     },
                 new VakInschrijving { VakInschrijvingId = 20, Titel = "Laura Janssen Economie 2023",
                     StudentId = studenten.Single(s => s.Achternaam == "Janssen").StudentId,
-                    VakId = vakken.Single(v => v.Titel == "Economie").VakId,
+                    VakId = vakken.Single(v => v.Titel == "Economie").VakId,  Goedkeuring = Goedkeuring.Toegelaten
                     },
                 new VakInschrijving { VakInschrijvingId = 21, Titel = "Laura Janssen Nederlands 2023",
                     StudentId = studenten.Single(s => s.Achternaam == "Janssen").StudentId, 
-                    VakId = vakken.Single(v => v.Titel == "Nederlands").VakId,
+                    VakId = vakken.Single(v => v.Titel == "Nederlands").VakId,  Goedkeuring = Goedkeuring.Toegelaten
                     },
                 new VakInschrijving { VakInschrijvingId = 22, Titel = "Willem Omloop Engels 2023",
                     StudentId = studenten.Single(s => s.Achternaam == "Omloop").StudentId,
-                    VakId = vakken.Single(v => v.Titel == "Engels").VakId,
+                    VakId = vakken.Single(v => v.Titel == "Engels").VakId,  Goedkeuring = Goedkeuring.Toegelaten
                     },
                 new VakInschrijving { VakInschrijvingId = 23, Titel = "Willem Omloop Frans 2023",
                     StudentId = studenten.Single( s => s.Achternaam == "Omloop").StudentId,
-                    VakId = vakken.Single( v => v.Titel == "Frans").VakId,
+                    VakId = vakken.Single( v => v.Titel == "Frans").VakId,  Goedkeuring = Goedkeuring.Toegelaten
                     },
                 new VakInschrijving { VakInschrijvingId = 24, Titel = "Willem Omloop Wiskunde 2023",
                     StudentId = studenten.Single(s => s.Achternaam == "Omloop").StudentId,
-                    VakId = vakken.Single(v => v.Titel == "Wiskunde").VakId,
+                    VakId = vakken.Single(v => v.Titel == "Wiskunde").VakId,  Goedkeuring = Goedkeuring.Toegelaten
                     },
             };
 
             var lessen = new Les[]
             {
                 new Les { LesId = 1, Titel = "Wiskunde1A", Omschrijving = "Introductie tot de lineaire algebra", TijdstipStart = DateTime.Parse("2023-09-23T09:00:00"), TijdstipEinde = DateTime.Parse("2023-09-23T10:30:00"),
-                    LokaalId = lokalen.Single( l => l.Titel == "Heverlee kleine zaal").LokaalId
+                    LokaalId = lokalen.Single( l => l.Titel == "Heverlee kleine zaal").LokaalId, DocentId = 2, VakId = 2
+                    
                 },
 
                 new Les { LesId = 2, Titel = "Economie1B", Omschrijving = "Marxisme", TijdstipStart = DateTime.Parse("2023-09-24T09:00:00"), TijdstipEinde = DateTime.Parse("2023-09-24T10:30:00"),
-                    LokaalId = lokalen.Single( l => l.Titel == "Heverlee grote zaal").LokaalId
-
+                    LokaalId = lokalen.Single( l => l.Titel == "Heverlee grote zaal").LokaalId, DocentId = 4, VakId = 4
+                    
                 },
                 new Les { LesId = 3, Titel = "Nederlands1A", Omschrijving = "Het lijdend voorwerp", TijdstipStart = DateTime.Parse("2023-09-25T09:00:00"), TijdstipEinde = DateTime.Parse("2023-09-25T10:30:00"),
-                    LokaalId = lokalen.Single( l => l.Titel == "Leuven kleine zaal 1").LokaalId
+                    LokaalId = lokalen.Single( l => l.Titel == "Leuven kleine zaal 1").LokaalId, DocentId = 3, VakId = 3
 
                 },
                 new Les { LesId = 4, Titel = "Nederlands1B", Omschrijving = "Het meewerkend voorwerp", TijdstipStart = DateTime.Parse("2023-09-26T09:00:00"), TijdstipEinde = DateTime.Parse("2023-09-26T10:30:00"),
-                    LokaalId = lokalen.Single( l => l.Titel == "Leuven kleine zaal 2").LokaalId
+                    LokaalId = lokalen.Single( l => l.Titel == "Leuven kleine zaal 2").LokaalId, DocentId = 3, VakId = 3
 
                 },
                 new Les { LesId = 5, Titel = "Engels1A", Omschrijving = "Inleiding", TijdstipStart = DateTime.Parse("2023-09-27T09:00:00"), TijdstipEinde = DateTime.Parse("2023-09-27T10:30:00"),
-                    LokaalId = lokalen.Single( l => l.Titel == "Leuven grote zaal").LokaalId
+                    LokaalId = lokalen.Single( l => l.Titel == "Leuven grote zaal").LokaalId, DocentId = 1, VakId = 1
 
                 },
                 new Les { LesId = 6, Titel = "Engels1B", Omschrijving = "Pronunciation", TijdstipStart = DateTime.Parse("2023-09-28T09:00:00"), TijdstipEinde = DateTime.Parse("2023-09-28T10:30:00"),
-                    LokaalId = lokalen.Single( l => l.Titel == "Heverlee kleine zaal").LokaalId
+                    LokaalId = lokalen.Single( l => l.Titel == "Heverlee kleine zaal").LokaalId, DocentId = 1, VakId = 1
 
                 },
                 new Les { LesId = 7, Titel = "Economie1A", Omschrijving = "Wat is economie?", TijdstipStart = DateTime.Parse("2023-09-29T09:00:00"), TijdstipEinde = DateTime.Parse("2029-09-23T10:30:00"),
-                    LokaalId = lokalen.Single( l => l.Titel == "Heverlee kleine zaal").LokaalId
+                    LokaalId = lokalen.Single( l => l.Titel == "Heverlee kleine zaal").LokaalId, DocentId = 4, VakId = 4
 
                 },
             };

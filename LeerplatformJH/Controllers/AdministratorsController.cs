@@ -10,6 +10,7 @@ using LeerplatformJH.Data;
 using LeerplatformJH.Models;
 using LeerplatformJH.Services.Interfaces;
 using LeerplatformJH.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LeerplatformJH.Controllers
 {
@@ -22,7 +23,7 @@ namespace LeerplatformJH.Controllers
         {
             _adminsService = adminsService;
         }
-
+        [Authorize(Roles = "Administrator")]
         public IActionResult LoadAllAdmins()
         {
             try
@@ -39,6 +40,7 @@ namespace LeerplatformJH.Controllers
         }
 
         // GET: Administrators
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Index()
         {
             return View(_adminsService.GetAllAdmins());
@@ -46,6 +48,7 @@ namespace LeerplatformJH.Controllers
         }
 
         // GET: Administrators/Details/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -64,6 +67,7 @@ namespace LeerplatformJH.Controllers
         }
 
         // GET: Administrators/Create
+        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             return View();
@@ -74,6 +78,7 @@ namespace LeerplatformJH.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create([Bind("AdministratorId,Achternaam,Voornaam,Email,Indiensttreding")] Administrator administrator)
         {
             if (ModelState.IsValid)
@@ -85,6 +90,7 @@ namespace LeerplatformJH.Controllers
         }
 
         // GET: Administrators/Edit/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _adminsService.GetAdministrator(id) == null)
@@ -105,6 +111,7 @@ namespace LeerplatformJH.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int id, [Bind("AdministratorId,Achternaam,Voornaam,Email,Indiensttreding")] Administrator administrator)
         {
             if (id != administrator.AdministratorId)
@@ -135,6 +142,7 @@ namespace LeerplatformJH.Controllers
         }
 
         // GET: Administrators/Delete/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _adminsService.GetAdministrator(id) == null)
@@ -154,6 +162,7 @@ namespace LeerplatformJH.Controllers
         // POST: Administrators/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_adminsService.GetAdministrator(id) == null)

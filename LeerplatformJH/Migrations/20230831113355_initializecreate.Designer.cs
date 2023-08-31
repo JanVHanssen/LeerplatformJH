@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace LeerplatformJH.Data.Migrations
+namespace LeerplatformJH.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230821110227_21082")]
-    partial class _21082
+    [Migration("20230831113355_initializecreate")]
+    partial class initializecreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -191,7 +191,7 @@ namespace LeerplatformJH.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("VakId")
+                    b.Property<int>("VakId")
                         .HasColumnType("int");
 
                     b.HasKey("LesId");
@@ -199,8 +199,6 @@ namespace LeerplatformJH.Data.Migrations
                     b.HasIndex("DocentId");
 
                     b.HasIndex("LokaalId");
-
-                    b.HasIndex("StudentId");
 
                     b.HasIndex("StudentLessenId");
 
@@ -212,79 +210,86 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             LesId = 1,
-                            DocentId = 0,
+                            DocentId = 2,
                             LokaalId = 1,
                             Omschrijving = "Introductie tot de lineaire algebra",
                             StudentId = 0,
                             TijdstipEinde = new DateTime(2023, 9, 23, 10, 30, 0, 0, DateTimeKind.Unspecified),
                             TijdstipStart = new DateTime(2023, 9, 23, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            Titel = "Wiskunde1A"
+                            Titel = "Wiskunde1A",
+                            VakId = 2
                         },
                         new
                         {
                             LesId = 2,
-                            DocentId = 0,
+                            DocentId = 4,
                             LokaalId = 2,
                             Omschrijving = "Marxisme",
                             StudentId = 0,
                             TijdstipEinde = new DateTime(2023, 9, 24, 10, 30, 0, 0, DateTimeKind.Unspecified),
                             TijdstipStart = new DateTime(2023, 9, 24, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            Titel = "Economie1B"
+                            Titel = "Economie1B",
+                            VakId = 4
                         },
                         new
                         {
                             LesId = 3,
-                            DocentId = 0,
+                            DocentId = 3,
                             LokaalId = 3,
                             Omschrijving = "Het lijdend voorwerp",
                             StudentId = 0,
                             TijdstipEinde = new DateTime(2023, 9, 25, 10, 30, 0, 0, DateTimeKind.Unspecified),
                             TijdstipStart = new DateTime(2023, 9, 25, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            Titel = "Nederlands1A"
+                            Titel = "Nederlands1A",
+                            VakId = 3
                         },
                         new
                         {
                             LesId = 4,
-                            DocentId = 0,
+                            DocentId = 3,
                             LokaalId = 5,
                             Omschrijving = "Het meewerkend voorwerp",
                             StudentId = 0,
                             TijdstipEinde = new DateTime(2023, 9, 26, 10, 30, 0, 0, DateTimeKind.Unspecified),
                             TijdstipStart = new DateTime(2023, 9, 26, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            Titel = "Nederlands1B"
+                            Titel = "Nederlands1B",
+                            VakId = 3
                         },
                         new
                         {
                             LesId = 5,
-                            DocentId = 0,
+                            DocentId = 1,
                             LokaalId = 4,
                             Omschrijving = "Inleiding",
                             StudentId = 0,
                             TijdstipEinde = new DateTime(2023, 9, 27, 10, 30, 0, 0, DateTimeKind.Unspecified),
                             TijdstipStart = new DateTime(2023, 9, 27, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            Titel = "Engels1A"
+                            Titel = "Engels1A",
+                            VakId = 1
                         },
                         new
                         {
                             LesId = 6,
-                            DocentId = 0,
+                            DocentId = 1,
                             LokaalId = 1,
                             Omschrijving = "Pronunciation",
                             StudentId = 0,
                             TijdstipEinde = new DateTime(2023, 9, 28, 10, 30, 0, 0, DateTimeKind.Unspecified),
                             TijdstipStart = new DateTime(2023, 9, 28, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            Titel = "Engels1B"
+                            Titel = "Engels1B",
+                            VakId = 1
                         },
                         new
                         {
                             LesId = 7,
-                            DocentId = 0,
+                            DocentId = 4,
                             LokaalId = 1,
                             Omschrijving = "Wat is economie?",
                             StudentId = 0,
                             TijdstipEinde = new DateTime(2029, 9, 23, 10, 30, 0, 0, DateTimeKind.Unspecified),
                             TijdstipStart = new DateTime(2023, 9, 29, 9, 0, 0, 0, DateTimeKind.Unspecified),
-                            Titel = "Economie1A"
+                            Titel = "Economie1A",
+                            VakId = 4
                         });
                 });
 
@@ -555,6 +560,7 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             VakInschrijvingId = 1,
+                            Goedkeuring = 0,
                             StudentId = 1,
                             Titel = "Jan Hanssen Nederlands 2023",
                             VakId = 3
@@ -562,6 +568,7 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             VakInschrijvingId = 2,
+                            Goedkeuring = 0,
                             StudentId = 1,
                             Titel = "Jan Hanssen Wiskunde 2023",
                             VakId = 2
@@ -569,6 +576,7 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             VakInschrijvingId = 3,
+                            Goedkeuring = 0,
                             StudentId = 1,
                             Titel = "Jan Hanssen Engels 2023",
                             VakId = 1
@@ -576,6 +584,7 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             VakInschrijvingId = 4,
+                            Goedkeuring = 0,
                             StudentId = 2,
                             Titel = "Wim Billen Engels 2023",
                             VakId = 1
@@ -583,6 +592,7 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             VakInschrijvingId = 5,
+                            Goedkeuring = 1,
                             StudentId = 2,
                             Titel = "Wim Billen Frans 2023",
                             VakId = 5
@@ -590,6 +600,7 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             VakInschrijvingId = 6,
+                            Goedkeuring = 2,
                             StudentId = 2,
                             Titel = "Wim Billen Nederlands 2023",
                             VakId = 3
@@ -597,6 +608,7 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             VakInschrijvingId = 7,
+                            Goedkeuring = 0,
                             StudentId = 3,
                             Titel = "Anne Broekmans Economie 2023",
                             VakId = 4
@@ -604,6 +616,7 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             VakInschrijvingId = 8,
+                            Goedkeuring = 1,
                             StudentId = 3,
                             Titel = "Anne Broekmans Wiskunde 2023",
                             VakId = 2
@@ -611,6 +624,7 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             VakInschrijvingId = 9,
+                            Goedkeuring = 2,
                             StudentId = 3,
                             Titel = "Anne Broekmans Engels 2023",
                             VakId = 1
@@ -618,6 +632,7 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             VakInschrijvingId = 10,
+                            Goedkeuring = 0,
                             StudentId = 4,
                             Titel = "Sara Putzeys Engels 2023",
                             VakId = 1
@@ -625,6 +640,7 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             VakInschrijvingId = 11,
+                            Goedkeuring = 1,
                             StudentId = 4,
                             Titel = "Sara Putzeys Frans 2023",
                             VakId = 5
@@ -632,6 +648,7 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             VakInschrijvingId = 12,
+                            Goedkeuring = 0,
                             StudentId = 4,
                             Titel = "Sara Putzeys Nederlands 2023",
                             VakId = 3
@@ -639,6 +656,7 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             VakInschrijvingId = 13,
+                            Goedkeuring = 0,
                             StudentId = 5,
                             Titel = "Steven Grosemans Wiskunde 2023",
                             VakId = 2
@@ -646,6 +664,7 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             VakInschrijvingId = 14,
+                            Goedkeuring = 0,
                             StudentId = 5,
                             Titel = "Steven Grosemans Economie 2023",
                             VakId = 4
@@ -653,6 +672,7 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             VakInschrijvingId = 15,
+                            Goedkeuring = 0,
                             StudentId = 5,
                             Titel = "Steven Grosemans Frans 2023",
                             VakId = 5
@@ -660,6 +680,7 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             VakInschrijvingId = 16,
+                            Goedkeuring = 0,
                             StudentId = 6,
                             Titel = "Elke Vandeplas Engels 2023",
                             VakId = 1
@@ -667,6 +688,7 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             VakInschrijvingId = 17,
+                            Goedkeuring = 0,
                             StudentId = 6,
                             Titel = "Elke Vandeplas Nederlands 2023",
                             VakId = 3
@@ -674,6 +696,7 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             VakInschrijvingId = 18,
+                            Goedkeuring = 0,
                             StudentId = 6,
                             Titel = "Elke Vandeplas Frans 2023",
                             VakId = 5
@@ -681,6 +704,7 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             VakInschrijvingId = 19,
+                            Goedkeuring = 0,
                             StudentId = 7,
                             Titel = "Laura Janssen Wiskunde 2023",
                             VakId = 2
@@ -688,6 +712,7 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             VakInschrijvingId = 20,
+                            Goedkeuring = 0,
                             StudentId = 7,
                             Titel = "Laura Janssen Economie 2023",
                             VakId = 4
@@ -695,6 +720,7 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             VakInschrijvingId = 21,
+                            Goedkeuring = 0,
                             StudentId = 7,
                             Titel = "Laura Janssen Nederlands 2023",
                             VakId = 3
@@ -702,6 +728,7 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             VakInschrijvingId = 22,
+                            Goedkeuring = 0,
                             StudentId = 8,
                             Titel = "Willem Omloop Engels 2023",
                             VakId = 1
@@ -709,6 +736,7 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             VakInschrijvingId = 23,
+                            Goedkeuring = 0,
                             StudentId = 8,
                             Titel = "Willem Omloop Frans 2023",
                             VakId = 5
@@ -716,6 +744,7 @@ namespace LeerplatformJH.Data.Migrations
                         new
                         {
                             VakInschrijvingId = 24,
+                            Goedkeuring = 0,
                             StudentId = 8,
                             Titel = "Willem Omloop Wiskunde 2023",
                             VakId = 2
@@ -737,7 +766,7 @@ namespace LeerplatformJH.Data.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("StudentInschrijvingen", (string)null);
+                    b.ToTable("StudentInschrijvingen");
                 });
 
             modelBuilder.Entity("LeerplatformJH.Models.ViewModels.StudentLessen", b =>
@@ -755,7 +784,22 @@ namespace LeerplatformJH.Data.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("StudentLessen", (string)null);
+                    b.ToTable("StudentLessen");
+                });
+
+            modelBuilder.Entity("LesStudent", b =>
+                {
+                    b.Property<int>("LesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("LesId", "StudentId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("LesStudent");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -965,7 +1009,7 @@ namespace LeerplatformJH.Data.Migrations
                     b.HasOne("LeerplatformJH.Models.Docent", "Docent")
                         .WithMany("Lessen")
                         .HasForeignKey("DocentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("LeerplatformJH.Models.Lokaal", "Lokaal")
@@ -974,31 +1018,27 @@ namespace LeerplatformJH.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LeerplatformJH.Models.Student", "Student")
-                        .WithMany("Lessen")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("LeerplatformJH.Models.ViewModels.StudentLessen", null)
                         .WithMany("Lessen")
                         .HasForeignKey("StudentLessenId");
 
-                    b.HasOne("LeerplatformJH.Models.Vak", null)
+                    b.HasOne("LeerplatformJH.Models.Vak", "Vak")
                         .WithMany("Lessen")
-                        .HasForeignKey("VakId");
+                        .HasForeignKey("VakId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("Docent");
 
                     b.Navigation("Lokaal");
 
-                    b.Navigation("Student");
+                    b.Navigation("Vak");
                 });
 
             modelBuilder.Entity("LeerplatformJH.Models.Vak", b =>
                 {
                     b.HasOne("LeerplatformJH.Models.Docent", "Docent")
-                        .WithMany()
+                        .WithMany("Vakken")
                         .HasForeignKey("DocentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1049,6 +1089,21 @@ namespace LeerplatformJH.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("LesStudent", b =>
+                {
+                    b.HasOne("LeerplatformJH.Models.Les", null)
+                        .WithMany()
+                        .HasForeignKey("LesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LeerplatformJH.Models.Student", null)
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1105,6 +1160,8 @@ namespace LeerplatformJH.Data.Migrations
             modelBuilder.Entity("LeerplatformJH.Models.Docent", b =>
                 {
                     b.Navigation("Lessen");
+
+                    b.Navigation("Vakken");
                 });
 
             modelBuilder.Entity("LeerplatformJH.Models.Lokaal", b =>
@@ -1114,8 +1171,6 @@ namespace LeerplatformJH.Data.Migrations
 
             modelBuilder.Entity("LeerplatformJH.Models.Student", b =>
                 {
-                    b.Navigation("Lessen");
-
                     b.Navigation("Vakinschrijvingen");
                 });
 

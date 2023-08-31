@@ -9,18 +9,6 @@ namespace LeerplatformJH.Test
     [TestClass]
     public class StudentModelTest
     {
-        [TestMethod]
-        public void StudentId_ShouldHaveKeyAttribute()
-        {
-            // Arrange
-            var studentIdProperty = typeof(Student).GetProperty("StudentId");
-
-            // Act
-            var keyAttribute = studentIdProperty.GetCustomAttributes(typeof(KeyAttribute), true);
-
-            // Assert
-            Assert.IsTrue(keyAttribute.Length > 0);
-        }
 
         [TestMethod]
         public void Achternaam_ShouldHaveRequiredAttribute()

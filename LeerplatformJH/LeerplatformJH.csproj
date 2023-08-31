@@ -23,4 +23,9 @@
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.3.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\Migrations\" />
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

@@ -30,5 +30,6 @@ namespace LeerplatformJH.Models
         [Display(Name = "Indiensttreding")]
         public DateTime? Indiensttreding { get; set; }
         public virtual ICollection<Les>? Lessen { get; set; }
+        public virtual ICollection<Vak>? Vakken { get; set; }
     }
 }

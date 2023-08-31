@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LeerplatformJH.Controllers
 {
@@ -16,7 +17,7 @@ namespace LeerplatformJH.Controllers
         {
             _context = context;
         }
-
+        [Authorize(Roles = "Student")]
         public IActionResult Index()
         {
 

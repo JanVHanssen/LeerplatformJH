@@ -1,29 +1,30 @@
 ﻿@model LeerplatformJH.Models.ViewModels.StudentLessen
 
-<h2>Student Lessen</h2>
-
-<p>Welkom, @Model.Student.Voornaam @Model.Student.Achternaam!</p>
+<h2>Lessen voor @Model.Student.Voornaam @Model.Student.Achternaam</h2>
 
 <table class="table">
     <thead>
         <tr>
             <th>Titel</th>
-            <th>Tijdstip Start</th>
-            <th>Tijdstip Einde</th>
+            <th>Omschrijving</th>
+            <th>Lokaal</th>
+            <th>Start van de les</th>
+            <th>Einde van de les</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var lessen in Model.Lessen)
+        @foreach (var les in Model.Lessen)
         {
             <tr>
-                <td>@lessen.Titel</td>
-                <td>@lessen.TijdstipStart.ToString("yyyy-MM-dd HH:mm")</td>
-                <td>@lessen.TijdstipEinde.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>@les.Titel</td>
+                <td>@les.Omschrijving</td>
+                <td>@les.Lokaal?.Titel</td>
+                <td>@les.TijdstipStart.ToString("yyyy-MM-dd HH:mm")</td>
+                <td>@les.TijdstipEinde.ToString("yyyy-MM-dd HH:mm")</td>
             </tr>
         }
     </tbody>
 </table>
-
 
 
 

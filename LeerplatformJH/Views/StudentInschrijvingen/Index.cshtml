@@ -1,10 +1,30 @@
 ﻿@model LeerplatformJH.Models.ViewModels.StudentInschrijvingen
 
-<h1>Student Inschrijvingen</h1>
+<!DOCTYPE html>
+<html>
+<body>
 
-<p>Student Naam: @Model.Student.Voornaam @Model.Student.Achternaam</p>
+    <h1>Student Inschrijvingen</h1>
 
-@foreach (var vakInschrijving in Model.VakInschrijvingen)
-{
-    <p>@vakInschrijving.Vak.Titel - @vakInschrijving.Goedkeuring</p>
-}
+    <p>Student Naam: @Model.Student.Voornaam @Model.Student.Achternaam</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Vak</th>
+                <th>Goedkeuring</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var vakInschrijving in Model.VakInschrijvingen)
+            {
+                <tr>
+                    <td>@vakInschrijving.Vak.Titel</td>
+                    <td>@vakInschrijving.Goedkeuring</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</body>
+</html>

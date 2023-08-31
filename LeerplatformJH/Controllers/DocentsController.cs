@@ -10,6 +10,7 @@ using LeerplatformJH.Models;
 using Humanizer;
 using System.Linq.Expressions;
 using LeerplatformJH.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LeerplatformJH.Controllers
 {
@@ -23,13 +24,13 @@ namespace LeerplatformJH.Controllers
             _docentService = docentService;
         }
 
+        [HttpGet]
+        [Authorize(Roles = "Administrator")]
         public IActionResult LoadAllDocenten()
         {
             try
             {
-                var docentData = (from v in _docentService.GetAllDocenten()
-                               select v).ToList<Docent>();
-                //Returning Json Data 
+                var docentData = _docentService.GetAllDocenten().ToList();
                 return Json(new { data = docentData });
             }
             catch (Exception)
@@ -39,6 +40,7 @@ namespace LeerplatformJH.Controllers
         }
 
         // GET: Docents
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Index()
         {
             return View(_docentService.GetAllDocenten());
@@ -46,6 +48,7 @@ namespace LeerplatformJH.Controllers
         }
 
         // GET: Docents/Details/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -64,6 +67,7 @@ namespace LeerplatformJH.Controllers
         }
 
         // GET: Docents/Create
+        [Authorize(Roles = "Administrator")]
         public IActionResult Create()
         {
             return View();
@@ -74,6 +78,7 @@ namespace LeerplatformJH.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create([Bind("DocentId,Achternaam,Voornaam,Email,Indiensttreding")] Docent docent)
         {
             if (ModelState.IsValid)
@@ -85,6 +90,7 @@ namespace LeerplatformJH.Controllers
         }
 
         // GET: Docents/Edit/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _docentService.GetDocent(id) == null)
@@ -105,6 +111,7 @@ namespace LeerplatformJH.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int id, [Bind("DocentId,Achternaam,Voornaam,Email,Indiensttreding")] Docent docent)
         {
             if (id != docent.DocentId)
@@ -135,6 +142,7 @@ namespace LeerplatformJH.Controllers
         }
 
         // GET: Docents/Delete/5
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _docentService.GetDocent(id) == null)
@@ -154,6 +162,7 @@ namespace LeerplatformJH.Controllers
         // POST: Docents/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_docentService.GetDocent(id) == null)

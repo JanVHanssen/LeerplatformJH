@@ -1,24 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using LeerplatformJH.Models.ViewModels;
 using LeerplatformJH.Models;
-using System.Security.Claims;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using System.Data;
-using System.Drawing.Printing;
+using System.Security.Claims;
 using LeerplatformJH.Data;
-using System.Numerics;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
-using System.Runtime.Intrinsics.X86;
+using Microsoft.EntityFrameworkCore;
 
 namespace LeerplatformJH.Controllers
 {
+    [Authorize(Roles = "Student")]
     public class StudentLessenController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -27,29 +18,30 @@ namespace LeerplatformJH.Controllers
         {
             _context = context;
         }
-        public async Task<IActionResult> Index()
-        {
-            string loggedInUserEmail = User.Identity.Name;
 
-            var student = await _context.Studenten.SingleOrDefaultAsync(s => s.Email == loggedInUserEmail);
+        public IActionResult Index()
+        {
+
+            string userEmail = User.Identity.Name;
+
+
+            Student student = _context.Studenten
+                .Include(s => s.Lessen)
+                .ThenInclude(les => les.Lokaal)
+                .FirstOrDefault(s => s.Email == userEmail);
 
             if (student == null)
             {
-                return NotFound(); 
+                return NotFound();
             }
-
-            var studentLessen = await _context.Lessen
-                .Where(lessen => lessen.StudentId == student.StudentId)
-                .ToListAsync();
-
-            var studentLessenVM = new StudentLessen
+            var viewModel = new StudentLessen
             {
                 Id = student.StudentId,
                 Student = student,
-                Lessen = studentLessen
+                Lessen = student.Lessen 
             };
 
-            return View(studentLessenVM);
+            return View(viewModel);
         }
     }
 }
